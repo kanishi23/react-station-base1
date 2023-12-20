@@ -4,7 +4,7 @@ export default function Header() {
   return(
     <>
     <div>
-      <h1>掲示板</h1>
+      <h1><Link to="/">掲示板</Link></h1>
       <Link to="/thread/new">スレッドを立てる</Link>
       
     </div>
