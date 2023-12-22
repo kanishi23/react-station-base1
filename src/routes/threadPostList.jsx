@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { useLoaderData, Form } from "react-router-dom";
 
 export async function loader({ params }) {
@@ -6,44 +7,48 @@ export async function loader({ params }) {
   console.log('data.posts', data.posts);
   return {
     posts: data.posts,
-    postId: params.id
+    postId: params.id,
   };
-}
-
-export async function action({ request, params }) {
-  const formData = await request.formData();
-  const post = formData.get("post");
-
-  const obj = {post: post};
-  const method = "POST";
-  const body = JSON.stringify(obj);
-  const headers = {
-    'Accept': 'application/json'
-  }
-  const url = `https://railway.bulletinboard.techtrain.dev/threads/${params.id}/posts`
-  fetch(url, {method, headers, body}).then((res)=> res.json()).then(console.log).catch(console.error);
-  return null;
 }
 
 export default function ThreadPostList() {
   const {posts, postId} = useLoaderData();
-  const url = `/thread/${postId}/posts`
+  const [statePosts, setStatePosts] = useState(posts);
+  const enteredPost = useRef();
+
+  const onHandleSubmit = async(e) => {
+    const post = enteredPost.current.value;
+    const method = "POST";
+    const body = JSON.stringify({post:post});
+    const headers = {
+      'Accept': 'application/json'
+    };
+    const url = `https://railway.bulletinboard.techtrain.dev/threads/${postId}/posts`;
+
+    const data = await fetch(url, {method, headers, body})
+    .then((res)=> res.json() )
+    .then((data)=>{
+      console.log
+      return data
+    })
+    .catch(console.error);
+    await setStatePosts([data, ...statePosts]);
+  };
+
   return(
     <>
-    <ul>
-      {posts.map((post, index) => {
-        return(
-          <>
-            <li key={post.id+index}>{post.post}</li>
-          </>
-        )
-      })}
-    </ul>
-    <Form method="post" action={url}>
-      <label for="post">createPost:</label>
-      <input type="text" name="post" id="post" />
-      <button type="submit">Submit</button>
-    </Form>
+      <ul>
+        {statePosts && statePosts.map((post, index) => {
+          return(
+              <li key={post.id+index}>{post.post}</li>
+          )
+        })}
+      </ul>
+      <Form onSubmit={onHandleSubmit}>
+        <label htmlFor="post">createPost:</label>
+        <input type="text" name="post" id="post" ref={enteredPost}/>
+        <button type="submit" >Submit</button>
+      </Form>
     </>
   )
 }

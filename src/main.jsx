@@ -5,7 +5,7 @@ import Index from './routes/index.jsx'
 import About from './routes/about.jsx'
 import ThreadList from './routes/threadList.jsx'
 import ThreadNew, { loader as threadsLoader , action as threadsAction } from './routes/threadNew.jsx'
-import ThreadPostList, { loader as postsLoader , action as postsAction } from './routes/threadPostList.jsx'
+import ThreadPostList, { loader as postsLoader } from './routes/threadPostList.jsx'
 import ErrorPage from './error-page.jsx'
 import './index.css'
 import {
@@ -32,8 +32,7 @@ const router = createBrowserRouter([
       {
         path: "/thread/:id/posts",
         element: <ThreadPostList />,
-        loader: postsLoader,
-        action: postsAction
+        loader: postsLoader
       }
     ]
   },
