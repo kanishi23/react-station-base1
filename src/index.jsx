@@ -1,13 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import Index from './routes/index.jsx'
-import About from './routes/about.jsx'
 import ThreadList from './routes/threadList.jsx'
-import ThreadNew, { loader as threadsLoader , action as threadsAction } from './routes/threadNew.jsx'
-import ThreadPostList, { loader as postsLoader } from './routes/threadPostList.jsx'
+import ThreadNew, { action as threadsAction } from './routes/threadNew.jsx'
+import ThreadPostList, { loader as postsLoader, action as postsAction } from './routes/threadPostList.jsx'
 import ErrorPage from './error-page.jsx'
-import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -26,13 +23,13 @@ const router = createBrowserRouter([
       {
         path: "/thread/new",
         element: <ThreadNew />,
-        loader: threadsLoader,
         action: threadsAction
       },
       {
-        path: "/thread/:id/posts",
+        path: "/thread/:thredId/posts",
         element: <ThreadPostList />,
-        loader: postsLoader
+        loader: postsLoader,
+        action: postsAction
       }
     ]
   },
