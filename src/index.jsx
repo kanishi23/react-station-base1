@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import ThreadList from './routes/threadList.jsx'
-import ThreadNew, { action as threadsAction } from './routes/threadNew.jsx'
+import ThreadNew from './routes/threadNew.jsx'
 import ThreadPostList, { loader as postsLoader, action as postsAction } from './routes/threadPostList.jsx'
-import ErrorPage from './error-page.jsx'
+import ErrorPage from './components/error-page.jsx'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,7 +23,6 @@ const router = createBrowserRouter([
       {
         path: "/thread/new",
         element: <ThreadNew />,
-        action: threadsAction
       },
       {
         path: "/thread/:thredId/posts",

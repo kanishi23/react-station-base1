@@ -1,23 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 export default function ThreadList() {
-
-
-  const [threads, setThreads] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('https://railway.bulletinboard.techtrain.dev/threads');
-      
-      const data = await response.json();
-      console.log('data',data);
-      setThreads(data);
-    }
-    fetchData();
-  }, []);
-
-
+  console.log('スレッド一覧の表示');
+  const [threads] = useOutletContext();
+  
   return(
     <>
       <div>
@@ -27,7 +13,7 @@ export default function ThreadList() {
         {threads.map((thread, index) => {
           const url = `/thread/${thread.id}/posts`
           return(
-            <li key={thread.title+index}>
+            <li key={thread.id}>
               <Link to={url}>threadTitle:{thread.title} / threadId:{thread.id}</Link>
             </li>
           )
